@@ -8,7 +8,7 @@ MY_LAT = 51.507351 # Your latitude
 MY_LONG = -0.127758 # Your longitude
 MY_EMAIL = "pradipsinhdemo@gmail.com"
 MY_PASSWORD = "jlvt rgve zbga hbtj"
-RECIVER_EMAIL = "umangvdemo1@gmail.com"
+RECEIVER_EMAIL = "umangvdemo1@gmail.com"
 
 #-------------------------- FUNCTIONS ---------------------------#
 def iss_is_close():
@@ -37,9 +37,9 @@ def is_night():
 
     sunrise = int(data["results"]["sunrise"].split("T")[1].split(":")[0])
     sunset = int(data["results"]["sunset"].split("T")[1].split(":")[0])
-    time_now = datetime.now()
+    time_now = datetime.now().hour
 
-    if time_now.hour >= sunset and time_now.hour <= sunrise:
+    if sunset <= time_now <= sunrise:
         return True
 
 #-------------------------- SEND EMAIL ---------------------------#
@@ -50,6 +50,6 @@ while True:
         with smtplib.SMTP("smtp.gmail.com") as connection:
             connection.starttls()
             connection.login(user=MY_EMAIL, password=MY_PASSWORD)
-            connection.sendmail(from_addr=MY_EMAIL, to_addrs=RECIVER_EMAIL,
+            connection.sendmail(from_addr=MY_EMAIL, to_addrs=RECEIVER_EMAIL,
                                 msg="Subject:ISS Overhead Alert"
                                     "\n\nLook Up ISS is Visible in the sky.")
